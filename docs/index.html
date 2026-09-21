@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>nano-shards — exact tensors on every GPU</title>
     <meta name="description" content="A one-layer dense or MoE transformer, sharded across GPUs under DDP / ZeRO / TP / EP, showing the exact value of every tensor on every rank." />
+    <!-- Google Analytics (GA4). Same measurement ID as the blog: these apps are
+         separate repos, but they publish to paths under the same origin
+         (www.kapilsharma.dev/<app>/), so one property/data stream covers both
+         and sessions carry across without cross-domain measurement. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXLMMX5QRS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-PXLMMX5QRS');
+    </script>
     <script type="module" crossorigin src="/nano-shards/assets/index-D0Ds6whC.js"></script>
     <link rel="stylesheet" crossorigin href="/nano-shards/assets/index-Bzu7-_Tr.css">
   </head>
