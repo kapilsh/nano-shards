@@ -14,10 +14,20 @@ import { rng, round2 } from './rand.js'
 export const V = 100
 export const DEFAULT_SEED = 1337
 
-/** Embedding and LM-head rows are drawn from the seed, so they are reproducible. */
+/**
+ * Embedding and LM-head rows, drawn from the seed so they are reproducible.
+ *
+ * Embedding rows are positive. In a real model they straddle zero, but hidden
+ * dim here is 1, and with d=1 the attention block gives attn(x) ~ x, so h ~ 2x
+ * carries the embedding's sign. A negative row therefore drives h < 0 and the
+ * FFN's relu zeroes the whole block — the most interesting part of the flow —
+ * for ~59% of tokens. At d=4096 some component always survives the relu; at
+ * d=1 nothing does, so we keep the row positive and let the LM head carry the
+ * sign, which is what makes the logits (and so the gradients) two-sided.
+ */
 function vocabRows(seed) {
   const r = rng(seed)
-  const E = Array.from({ length: V }, () => round2(r() * 2 - 1))
+  const E = Array.from({ length: V }, () => round2(0.15 + r() * 1.0))
   const U = Array.from({ length: V }, () => round2(r() * 2 - 1))
   return { E, U }
 }
